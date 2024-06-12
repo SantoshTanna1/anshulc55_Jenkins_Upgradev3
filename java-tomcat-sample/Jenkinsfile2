@@ -1,0 +1,53 @@
+pipeline{
+    agent any
+    parameters{
+        booleanParam(name: 'RELEASE', defaultValue: false, description: "nothing on my mind currently")
+    }
+    environment{
+        RELEASE_version = '1.1.0'
+        INT_Version = "R2"
+    }
+    stages{
+        stage("to know the versions"){
+            steps{
+                echo "in init stage"
+                sh '''
+                mvn -version
+                git --version
+                java -version
+                '''
+            }
+        }
+        stage("unit tests"){
+            steps{
+                dir('./java-tomcat-sample'){
+                    echo "executing unit tests"
+                    sh '''
+                    mvn test
+                    '''
+                }
+
+            }
+        }
+        stage("build"){
+            environment{
+                Vesrion_suffix = "${sh(script: 'if [ "${RELEASE_version}" = false] ; then echo -n "${INT_Version}" ci:"${BUILD_NUMBER}""')}"
+            }
+            steps{
+                echo "building version: ${INT_Version} with suffix ${Vesrion_suffix}"
+                dir('./java-tomcat-sample'){
+                    sh '''
+                    mvn versions:set -DnewVersion="${Vesrion_suffix}"-SNAPHSHOT
+                    mvn versions:update-child-modules
+                    mvn clean package
+                    '''
+                }
+            }
+        }
+        stage("publish"){
+            steps{
+                archiveArtifacts('**/*.war')
+            }
+        }
+    }
+}
