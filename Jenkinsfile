@@ -16,8 +16,15 @@ pipeline {
                         '''
                   }
             }
+
             stage('Build') {
                   steps {
+                        dir('./java-tomcat-sample'){
+                              sh '''
+                              echo "testing unit tests"
+                              mvn test
+                              '''
+                        }
                         echo 'Building Sample Maven Project'
                   }
             }
