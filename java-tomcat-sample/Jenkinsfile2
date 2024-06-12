@@ -31,7 +31,7 @@ pipeline{
         }
         stage("build"){
             environment{
-                Vesrion_suffix = "${sh(script: 'if [ "${RELEASE_version}" = false] ; then echo -n "${INT_Version}" ci:"${BUILD_NUMBER}""')}"
+                Vesrion_suffix = "${sh(script: 'if [ "${RELEASE_version}" = false] ; then echo -n "${INT_Version}"ci:"${BUILD_NUMBER}"')}"
             }
             steps{
                 echo "building version: ${INT_Version} with suffix ${Vesrion_suffix}"
