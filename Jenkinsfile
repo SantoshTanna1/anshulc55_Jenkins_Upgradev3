@@ -17,7 +17,7 @@ pipeline {
                   }
             }
 
-            stage('Build') {
+            stage('UNit TESTS') {
                   steps {
                         dir('./java-tomcat-sample'){
                               sh '''
@@ -28,9 +28,10 @@ pipeline {
                         echo 'Building Sample Maven Project'
                   }
             }
-            stage('Deploy') {
+            stage('bUILD') {
                   steps {
-                        echo "Deploying in Staging Area"
+                        echo "Building the application"
+                        sh 'mvn -f java-tomcat-sample/pom.xml clean package'
                   }
             }
             stage('Deploy Production') {
