@@ -7,6 +7,15 @@ pipeline {
                         echo 'We are Starting the Testing'
                   }
             }
+            stage("audit") {
+                  steps {
+                        sh '''
+                              mvn -version
+                              git -version
+                              java -version
+                        '''
+                  }
+            }
             stage('Build') {
                   steps {
                         echo 'Building Sample Maven Project'
