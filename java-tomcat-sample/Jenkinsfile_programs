@@ -1,6 +1,6 @@
 pipeline{
     agent any
-    parameters{
+    params{
         booleanParam(name: 'RELEASE', defaultValue: false, description: "nothing on my mind currently")
     }
     environment{
@@ -53,7 +53,7 @@ void getVersions(){
 }
 
 String getBuildVersion(){
-    if ( parameters.RELEASE) {
+    if ( params.RELEASE) {
         return environment.RELEASE_version + ':' + environment.BUILD_NUMBER
     }
     else{
