@@ -61,7 +61,7 @@ String getBuildVersion(){
     }
 }
 
-packageApllication(){
+void packageApllication(){
     sh '''
         mvn versions:set -DnewVersion="${Vesrion_suffix}"-SNAPHSHOT
         mvn versions:update-child-modules
