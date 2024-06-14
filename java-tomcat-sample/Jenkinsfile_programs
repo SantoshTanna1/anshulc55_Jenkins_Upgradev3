@@ -1,0 +1,72 @@
+pipeline{
+    agent any
+    parameters{
+        booleanParam(name: 'RELEASE', defaultValue: false, description: "nothing on my mind currently")
+    }
+    environment{
+        RELEASE_version = '1.1.0'
+        INT_Version = "R2"
+    }
+    stages{
+        stage("to know the versions"){
+            steps{
+                getVersions()
+            }
+        }
+        stage("unit tests"){
+            steps{
+                dir('./java-tomcat-sample'){
+                    echo "executing unit tests"
+                    sh '''
+                    mvn test
+                    '''
+                }
+
+            }
+        }
+        stage("build"){
+            environment{
+                Vesrion_suffix = 
+            }
+            steps{
+                echo "building version: ${INT_Version} with suffix ${Vesrion_suffix}"
+                dir('./java-tomcat-sample'){
+                    packageApllication()
+                }
+            }
+        }
+        stage("publish"){
+            steps{
+                archiveArtifacts('**/*.war')
+            }
+        }
+    }
+}
+
+void getVersions(){
+    sh '''
+        echo "in init stage"
+        mvn -version
+        git --version
+        java -version
+        '''
+}
+
+String getBuildVersion(){
+    if ( parameters.RELEASE) {
+        return environment.RELEASE_version + ':' + environment.BUILD_NUMBER
+    }
+    else{
+        return env.INT_Version + 'ci' + environment.BUILD_NUMBER
+    }
+}
+
+packageApllication(){
+    sh '''
+        mvn versions:set -DnewVersion="${Vesrion_suffix}"-SNAPHSHOT
+        mvn versions:update-child-modules
+        mvn clean package
+        '''
+}
+
+
