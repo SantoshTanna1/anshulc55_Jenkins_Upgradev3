@@ -54,10 +54,10 @@ void getVersions(){
 
 String getBuildVersion(){
     if ( params.RELEASE) {
-        return environment.RELEASE_version + ':' + environment.BUILD_NUMBER
+        return env.RELEASE_version + ':' + env.BUILD_NUMBER
     }
     else{
-        return env.INT_Version + 'ci' + environment.BUILD_NUMBER
+        return env.INT_Version + 'ci' + env.BUILD_NUMBER
     }
 }
 
