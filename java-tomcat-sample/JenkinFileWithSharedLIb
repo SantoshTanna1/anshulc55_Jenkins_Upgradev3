@@ -6,7 +6,7 @@ pipeline{
     stages{
         stage('audit tools'){
             steps{
-                auditTools message: 'we are shared library;
+                auditTools message: 'we are in shared library'
             }
         }
     }
