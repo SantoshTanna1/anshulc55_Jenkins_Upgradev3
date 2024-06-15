@@ -1,0 +1,13 @@
+library identifier: 'SharedJenkins_libraries', 
+retriever: modernSCM([$class: 'GitSCMSOurce', remote: 'https://github.com/SantoshTanna1/SharedJenkins_libraries.git'])
+
+pipeline{
+    agent any
+    stages{
+        stage('audit tools'){
+            steps{
+                auditTools message: 'we are shared library;
+            }
+        }
+    }
+}
