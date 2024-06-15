@@ -1,5 +1,5 @@
 library identifier: 'SharedJenkins_libraries', 
-retriever: modernSCM([$class: 'GitSCMSOurce', remote: 'https://github.com/SantoshTanna1/SharedJenkins_libraries.git'])
+retriever: modernSCM([$class: 'GitSCMSource', remote: 'https://github.com/SantoshTanna1/SharedJenkins_libraries.git'])
 
 pipeline{
     agent any
